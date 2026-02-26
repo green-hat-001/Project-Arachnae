@@ -1,0 +1,19 @@
+## Bill of Materials (BOM)
+
+This project is designed to be highly accessible. Below is the list of hardware and electronics required to build Project Arachnae. 
+
+| Item | Quantity | Description / Purpose | Estimated Cost (USD) |
+| :--- | :---: | :--- | :---: |
+| **DS3218 20kg Servo** | 3 | High-torque servos for primary high-tension movements (e.g., main grip/wrist). | ~$15.00 |
+| **MG996R Pro Servo** | 3 | Standard-torque metal gear servos for secondary finger articulation. | ~$12.00 |
+| **NEMA 23 Stepper Motor** | 1 | High-torque motor for the main structural load-bearing joint. | ~$20.00 |
+| **Arduino Uno (or Clone)** | 1 | The main microcontroller for processing logic and sending motor signals. | ~$5.00 |
+| **TB6600 Stepper Motor Driver** | 1 | Required to safely deliver high current to the NEMA 23. | ~$8.00 |
+| **12V or 24V Power Supply** | 1 | High-wattage wall adapter or PSU to power the stepper motor. | ~$15.00 |
+| **5V DC-DC Buck Converter** | 3-4 | Steps down the 12V/24V power to a safe 5V for the 6 servos. *(Note: Do not power the servos directly from the Arduino to prevent brownouts).* | ~$5.00 |
+| **Long, strong rubber bands** | 1 Roll | Used as the high-tension tendons for finger actuation. | ~$5.00 |
+| **Jumper Wires & Perfboard** | 1 Set | For routing signals between the Arduino, driver, and servos. | ~$5.00 |
+| **M3 / M4 Screws & Nuts** | 1 Kit | Standard metric hardware for assembling the 3D printed chassis. | ~$10.00 |
+| **3D Printer Filament** | 1-2 kg | PLA+ or PETG recommended for durability and ease of printing. | ~$20.00 |
+
+> **Note on Budget:** Prices are estimates based on standard global suppliers like AliExpress or Amazon. Sourcing locally or salvaging parts can further reduce the total cost of the build.
