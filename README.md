@@ -1,5 +1,5 @@
 # Project-Arachnae
-A semi-opensource prosthetic aimed at making prosthetics more usable and accessable to people with a tight budget and/or in developing countries.
+A semi-opensource prosthetic aimed at making prosthetics more usable and accessable to people with a tight budget and/or in developing countries. This project was started as passion project to experiment on a freind of mine who doesn't have an arm. Then as the project developed it became a vision to make these prosthetic more accessable and more usable compared to the super expensive ones out there that dont really have much functionalty built into them. 
 
 The main step file has been compressed due to its size of CAD model.
 
