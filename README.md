@@ -4,6 +4,11 @@ A semi-opensource prosthetic aimed at making prosthetics more usable and accessa
 The main step file has been compressed due to its size of CAD model. Below is the link to veiw the file in the browser as again the file is way too big to upload to github.
 -> https://a360.co/4daP7HM
 
+**How to use:**
+- The user will wear a backplate that houses the arm. When the user turns on the arm a preloaded script automatically runs. Then the user can voice out commands like, "Top right cup" and the ML model built into the arm will use the camera mounted on the hand to search for a cup in the "top right" of the user. The camera also serves as a method for the hand to determine the optimal grip for the object.
+
+- <img width="2145" height="1792" alt="1770411682987 (1)" src="https://github.com/user-attachments/assets/ebedc42d-b5cb-498f-b203-7d4289d15b30" />
+
 The below will explain how the arm works, for greater detail contact me via the email (gal1le02620@gmail.com)
 
 ---
@@ -26,5 +31,6 @@ The physical movement of the arm relies on a hybrid motor setup designed to bala
 ### 3. Electronics & Software Control
 The "brain" of Project Arachnae uses a combination of high-level programming and low-level microcontroller execution:
 * **Microcontroller:** An Arduino serves as the hardware interface. It is responsible for sending precise electrical signals to the motor drivers.
-* **Logic & Processing:** Python runs in tandem with the Arduino to handle the heavier logic, process user inputs, and dictate the overall state of the arm.
+* **Logic & Processing
+g:** Python runs in tandem with the Arduino to handle the heavier logic, process user inputs, and dictate the overall state of the arm.
 * **Safety & Calibration:** To protect both the user and the 3D-printed mechanisms, the control code features a soft-start routine. The software explicitly prevents the servos from jumping violently to a default position upon startup, ensuring smooth, safe initialization. This will be improved in V2 thanks to a feature of the ST3215 that allows the user to read its angle at all times. 
