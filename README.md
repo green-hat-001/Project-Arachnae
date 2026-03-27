@@ -1,7 +1,7 @@
 # Project-Arachnae
 A semi-opensource prosthetic aimed at making prosthetics more usable and accessable to people with a tight budget and/or in developing countries. This project was started as passion project to experiment on a freind of mine who doesn't have an arm. Then as the project developed it became a vision to make these prosthetic more accessable and more usable compared to the super expensive ones out there that dont really have much functionalty built into them. 
 
-The main step file has been compressed due to its size of CAD model. Below is the link to veiw the file in the browser as again the file is way too big to upload to github.
+The main step file has been compressed due to its size of CAD model. Below is the link to veiw the file in the browser as again the file is way too big to upload to github. You can download .f3d or any other file types from the below link.
 -> https://a360.co/4daP7HM
 
 **How to use:**
