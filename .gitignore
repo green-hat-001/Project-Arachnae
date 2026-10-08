@@ -1,0 +1,23 @@
+# Build output
+.pio/
+.cache/
+.vscode/
+compile_commands.json
+__pycache__/
+*.pyc
+
+# Python environments
+.venv/
+venv/
+
+# Credentials: copy secrets.h.example to secrets.h and fill it in
+firmware/Final_Firmware_Main/secrets.h
+
+# Host simulator build products and the auto-cloned dependency
+firmware/tools/host_sim/ArduinoJson/
+firmware/tools/host_sim/fwtest
+firmware/tools/host_sim/setidtest
+firmware/tools/host_sim/repro
+
+# CV captures saved with the "s" key
+vision/captures/
