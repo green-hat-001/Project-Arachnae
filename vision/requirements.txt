@@ -1,0 +1,5 @@
+numpy>=2.0
+opencv-python>=4.9
+onnxruntime>=1.18
+websockets>=12
+# Tested with numpy 2.5.3, opencv-python 5.0.0, onnxruntime 1.30.0, websockets 17.1 on Python 3.12.
