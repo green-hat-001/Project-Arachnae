@@ -353,7 +353,7 @@ void setup() {
   // 3. Initialize Wi-Fi (Station Mode -> Phone Hotspot)
   WiFi.mode(WIFI_STA);
   WiFi.begin(STA_SSID, STA_PASS);
-  Serial.print(F("[WiFi] Connecting to Boo "));
+  Serial.print(F("[WiFi] Connecting to hotspot "));
   
   uint32_t t0 = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - t0 < 15000) {
@@ -362,7 +362,7 @@ void setup() {
   Serial.println();
   
   if (WiFi.status() != WL_CONNECTED) {
-    Serial.println(F("[WiFi] FAILED to connect to Boo! Check hotspot password."));
+    Serial.println(F("[WiFi] FAILED to connect to the hotspot! Check hotspot password."));
   } else {
     String ip = WiFi.localIP().toString();
     Serial.printf("[WiFi] Connected! IP Address: %s\n", ip.c_str());

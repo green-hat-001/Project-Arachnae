@@ -1,53 +1,85 @@
-# Project-Arachnae
-A semi-opensource prosthetic aimed at making prosthetics more usable and accessable to people with a tight budget and/or in developing countries. This project was started as passion project to experiment on a freind of mine who doesn't have an arm. Then as the project developed it became a vision to make these prosthetic more accessable and more usable compared to the super expensive ones out there that dont really have much functionalty built into them. 
+# Project Arachnae
 
-The main step file has been compressed due to its size of CAD model. Below is the link to veiw the file in the browser as again the file is way too big to upload to github. You can download .f3d or any other file types from the below link.
--> https://a360.co/4daP7HM
+**A low-cost robotic arm you wear on your back, with a camera in its hand.**
 
-**How to use:**
-- The user will wear a backplate that houses the arm. When the user turns on the arm a preloaded script automatically runs. Then the user can voice out commands like, "Top right cup" and the ML model built into the arm will use the camera mounted on the hand to search for a cup in the "top right" of the user. The camera also serves as a method for the hand to determine the optimal grip for the object.
+I started Project Arachnae as a passion project for a friend of mine who doesn't have an arm. As it grew, it became a
+goal: make an assistive arm that people on a tight budget, or in developing countries, could actually build, adapt and
+repair, and that does more than the expensive prosthetics that offer little real functionality.
 
-- <img width="2145" height="1792" alt="1770411682987 (1)" src="https://github.com/user-attachments/assets/ebedc42d-b5cb-498f-b203-7d4289d15b30" />
+Arachnae is a 1 m, 2 kg, 4-joint arm with a gripper. It mounts on a back plate behind the right shoulder blade and
+reaches around the body. The camera in the gripper feeds an object detector, and the arm's own firmware plans moves
+that avoid the wearer's body.
 
-The below will explain how the arm works, for greater detail contact me via the email (gal1le02620@gmail.com)
+![Arachnae worn, September 2026](docs/images/worn_2026-09-30.jpg)
 
----
+<!-- VIDEO LINKS: replace the # with the YouTube links once uploaded -->
+**Videos:** [prototype film](#) · [vision proof](#) · [first grab, 2026-09-29](#)
 
-## How It Works: Technical Architecture
+## Status (October 2026)
 
-Project Arachnae leverages accessible hardware and software to create a highly functional, low-cost bionic arm. The system is broken down into three main categories: mechanical design, hardware, and the control system.
+| | |
+|---|---|
+| **Works on the real arm** | jogging all four joints to commanded angles; the gripper; picking up and releasing an object; teaching poses; E-STOP and recovery; Wi-Fi control from a phone; over-the-air updates; live object detection from the hand camera |
+| **Works in simulation** | the full autonomous grab (scan → approach → grip → lift → hand off → home), checked by 940 automated tests |
+| **Not done yet** | **the base joint**: its printed gearbox still breaks under the full arm's weight, after seven redesigns ([the whole story](docs/BASE_GEARBOX.md)). Without it the arm can't lift itself, so autonomous grabbing hasn't run on the real arm yet. |
 
-### 1. Mechanical Design & Manufacturing
+## How it works
 
-To keep costs low and ensure the prosthetic is accessible globally, the structural components are fully 3D printable. 
-* **Modeling:** The components are designed using CAD software like Fusion 360 and OpenSCAD. 
-* **Fabrication:** Parts can be printed using standard, widely available filaments. Because the main CAD models (like the compressed STEP file mentioned above) are provided, users can modify the design to fit specific anatomical dimensions or hardware availability.
+| | |
+|---|---|
+| **Mechanics** | Shoulder, elbow and wrist driven by ST3215 servos through HTD3M timing belts (6.7:1, 6:1, 2.25:1). The base, which lifts the whole arm, uses a self-locking worm stage into a 10:1 cycloidal reducer. Everything structural is printed in PETG. The gripper twist-locks on and off. |
+| **Electronics** | One Seeed XIAO ESP32-S3 Sense runs everything: five serial bus servos, the camera, Wi-Fi and the control pages. The servos connect to the board through just two resistors per bus. A 3S LiPo powers it, and a physical switch cuts the 12 V rail. |
+| **Firmware** | Multi-turn motion on single-turn servos, inverse kinematics with a model of the wearer's body, seven taught poses, a grab state machine, and a safety layer that never trusts a servo write it hasn't read back. |
+| **Vision** | YOLOv8s on a laptop reads the hand camera, estimates the object's 3D position (calibrated to within about 3 cm), and sends it to the arm. |
+| **Testing** | The exact firmware compiles on a PC against a simulated servo bus, so every bug I find on the arm becomes a test first. |
 
-### 2. Hardware & Actuation
-The physical movement of the arm relies on a hybrid motor setup designed to balance heavy lifting power with fine motor control:
-* **Stepper Motor:** A NEMA 23 stepper motor is utilized for the joints requiring higher torque and structural stability. 
-* **Servos:** Micro-servos actuate the finer movements, driving the tension systems that allow the individual fingers to flex and extend. 3xDS3218 are used to move each arm segments. However, V2 will house a ST3215 for better feedback and controllability and much higher torque ceilings. These servos are assisted through gravity compensation.
+Read more: [system overview](docs/ARCHITECTURE.md) · [hardware](docs/HARDWARE.md) · [firmware](docs/FIRMWARE.md) ·
+[safety](docs/SAFETY.md) · [testing](docs/TESTING.md) · [vision](docs/VISION.md) ·
+[base gearbox](docs/BASE_GEARBOX.md) · [operating the arm](docs/OPERATING.md)
 
-### 3. Electronics & Software Control
-The "brain" of Project Arachnae uses a combination of high-level programming and low-level microcontroller execution:
-* **Microcontroller:** An Arduino serves as the hardware interface. It is responsible for sending precise electrical signals to the motor drivers.
-* **Logic & Processing
-g:** Python runs in tandem with the Arduino to handle the heavier logic, process user inputs, and dictate the overall state of the arm.
-* **Safety & Calibration:** To protect both the user and the 3D-printed mechanisms, the control code features a soft-start routine. The software explicitly prevents the servos from jumping violently to a default position upon startup, ensuring smooth, safe initialization. This will be improved in V2 thanks to a feature of the ST3215 that allows the user to read its angle at all times. 
+## The story
 
-### 4. BOM
-## Bill of Materials (BOM)
+- [**TIMELINE.md**](TIMELINE.md): day by day, from the first base design in November 2025 to now.
+- [**Design decisions**](docs/DESIGN_DECISIONS.md): what I chose and why.
+- [**Lessons learned**](docs/LESSONS_LEARNED.md): the failures that taught me the most.
 
-| Item | Quantity | Description / Purpose | Link |
-| :--- | :---: | :--- | :--- |
-| DS3218 20kg Servo | 3 | High-torque servos for primary high-tension movements (e.g. main grip/wrist) | [Buy](https://www.amazon.ae/Miuzei-Torque-Waterproof-Control-Digital/dp/B0CQX9SYP2/ref=sr_1_5) |
-| MG996R Pro Servo | 3 | Standard-torque metal gear servos for secondary finger articulation | [Buy](https://www.amazon.ae/Deegoo-4-Pack-MG996R-Digital-Helicopter/dp/B07MFK266B/ref=sr_1_2) |
-| NEMA 23 Stepper Motor | 1 | High-torque motor for the main structural load-bearing joint | [Buy](https://www.amazon.ae/STEPPERONLINE-Stepper-Motor-339-79oz-57x57x82mm/dp/B091C37FJ2/ref=sr_1_3) |
-| Arduino Uno (or Clone) | 1 | Main microcontroller for processing logic and sending motor signals | [Buy](https://www.amazon.ae/Arduino-bridges-high-performance-computing-real-time/dp/B0GFN669S4/ref=sr_1_16) |
-| TB6600 Stepper Motor Driver | 1 | Required to safely deliver high current to the NEMA 23 | [Buy](https://www.amazon.ae/Usongshine-Stepper-Driver-Controller-Motor%EF%BC%881/dp/B07HHS14VQ/ref=sr_1_3) |
-| 12V or 24V Power Supply | 1 | High-wattage wall adapter or PSU to power the stepper motor | [Buy](https://www.amazon.ae/Switching-Regulated-Transformer-Converter-Computer/dp/B09X9R9668/ref=sr_1_8) |
-| 5V DC-DC Buck Converter | 3–4 | Steps down 12V/24V to a safe 5V for the servos (do not power servos directly from Arduino) | [Buy](https://www.amazon.ae/1-25-36V-Step-Down-Converter-Voltage-Regulator/dp/B0F24ZHB4S/ref=sr_1_3) |
-| Long Strong Rubber Bands | 1 roll | Used as high-tension tendons for finger actuation | [Buy](https://www.amazon.ae/Kowvowz-Large-Rubber-Bands-Approximately/dp/B0CQ7F6KJS/ref=sr_1_37) |
-| Jumper Wires & Perfboard | 1 set | For routing signals between the Arduino, driver, and servos | Local store (~30 AED) |
-| M3 / M4 Screws & Nuts | 1 kit | Standard metric hardware for assembling the 3D printed chassis | Local store (~25 AED) |
-| 3D Printer Filament (PLA+/PETG) | 3 kg | Main structural material — PLA+ or PETG recommended for durability | [Buy](https://www.amazon.ae/ELEGOO-Filament-Black-Dimensional-1kg/dp/B0F7LBXB2X/ref=sr_1_1_sspa) |
+## Repository
+
+| Folder | What |
+|---|---|
+| [`firmware/`](firmware) | the arm's firmware (PlatformIO, C++), the servo ID tool and the simulator |
+| [`vision/`](vision) | the laptop vision pipeline (Python, ONNX Runtime) |
+| [`cad/`](cad) | all CAD for V1 and V2: STEP assemblies, print files, and the base gearbox iterations with their generator and FEA scripts ([index](cad/README.md), [rename log](cad/RENAMES.md)) |
+| [`docs/`](docs) | how everything works, and why |
+| [`archive/`](archive) | the V1 Arduino code and the first V2 code |
+
+CAD files and models are stored with Git LFS (about 0.9 GB). To clone just the code:
+
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/green-hat-001/Project-Arachnae.git
+```
+
+The full V1 model can also be viewed in a browser on [Autodesk](https://a360.co/4daP7HM).
+
+## Quick start
+
+```bash
+cd firmware
+cp Final_Firmware_Main/secrets.h.example Final_Firmware_Main/secrets.h   # Wi-Fi + OTA passwords
+tools/host_sim/run_tests.sh      # 940 checks, no hardware needed
+pio run -e main_fw -t upload     # flash the XIAO ESP32-S3 over USB-C
+```
+
+Then power the arm, join its `ARACHNAE` network and open `http://192.168.4.1/`. Before moving it, read
+[SAFETY.md](docs/SAFETY.md) and [OPERATING.md](docs/OPERATING.md).
+
+## History
+
+**V1** (Nov 2025 to Apr 2026): an Arduino Uno R4 driving a NEMA 23 stepper base, DS3218 servos, and a five-finger hand
+pulled by MG996R servos and rubber-band tendons. Its code is in [`archive/v1-arduino/`](archive/v1-arduino) and its CAD
+in [`cad/v1/`](cad/v1). **V2** (May 2026 onward) moved to serial bus servos with position feedback, a single ESP32 with
+a camera, and everything above.
+
+## Contact
+
+For more detail, email me at gal1le02620@gmail.com.
